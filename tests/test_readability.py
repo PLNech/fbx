@@ -69,7 +69,7 @@ def test_corpus_every_record_op_renders_without_shrugs():
                 if DETAIL_HINT in out:
                     hinted += 1
         report.append((dom, ops_rendered, hinted))
-    print("\nfbx render sweep — per domain: ops rendered, cells truncated-with-hint")
+    print("\nfbx render sweep, per domain: ops rendered, cells truncated-with-hint")
     for dom, ops, hinted in report:
         print(f"  {dom:12s} {ops:3d} ops  {hinted:3d} hinted cells")
     assert n >= 292

@@ -13,7 +13,7 @@ def _tmp_session(tmp_path, monkeypatch):
 @pytest.fixture(autouse=True)
 def _hard_offline(monkeypatch):
     """Kill switch: any un-mocked HTTP call (or 1Password read) fails loudly.
-    Tests never touch the real box — individual tests override with fakes."""
+    Tests never touch the real box; individual tests override with fakes."""
     def _deny(*a, **k):
         raise AssertionError("tests never touch the network")
     monkeypatch.setattr(http, "call", _deny)

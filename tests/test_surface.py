@@ -1,7 +1,7 @@
 """Surface test: the installed CLI must expose the whole documented spec.
 
 If a domain module stops being imported, a record loses its path/verbs, or the
-op count silently shrinks, CI fails here — the test suite always covers every
+op count silently shrinks, CI fails here: the test suite always covers every
 command the docs promise.
 """
 from typer.main import get_command

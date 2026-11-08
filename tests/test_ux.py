@@ -41,7 +41,7 @@ def test_bare_arg_is_usage_error_with_hint():
 
 
 def test_bare_arg_no_hint_without_read_ops():
-    # mac-filter is LCUD — no show/get, so the error must not invent one
+    # mac-filter is LCUD: no show/get, so the error must not invent one
     res = runner.invoke(app, ["wifi", "mac-filter", "add", "mac=aa:bb:cc:00:00:01", "oops"])
     assert res.exit_code != 0
     assert "body fields are key=value" in res.output

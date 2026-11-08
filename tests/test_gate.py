@@ -5,7 +5,7 @@ import typer
 
 from fbx_cli import auth, http
 from fbx_cli import spec
-import fbx_cli.domains  # noqa: F401 — populates spec.RECORDS
+import fbx_cli.domains  # noqa: F401 (populates spec.RECORDS)
 from fbx_cli.engine import run, method_for
 
 MUTATING = set("CUDA")

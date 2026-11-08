@@ -1,7 +1,7 @@
 """Spec hygiene + coverage: every record well-formed, domains complete."""
 import pytest
 
-import fbx_cli.domains  # noqa: F401 — registers every record
+import fbx_cli.domains  # noqa: F401 (registers every record)
 from fbx_cli.spec import BY_DOMAIN, RECORDS
 
 
