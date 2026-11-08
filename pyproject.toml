@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "fbx-cli"
+version = "0.1.0"
+description = "fbx — Le CLI freebox: an unofficial, full-coverage command line into a Freebox OS box's panel API"
+authors = ["Paul-Louis NECH"]
+license = "GPL-3.0-only"
+readme = "README.md"
+homepage = "https://git.nech.pl/pln/fbx"
+repository = "https://git.nech.pl/pln/fbx"
+keywords = ["freebox", "freebox-os", "cli", "router", "home-network"]
+packages = [{ include = "fbx_cli" }]
+
+[tool.poetry.urls]
+"Mirror (GitHub)" = "https://github.com/plnech/fbx"
+"Changelog" = "https://git.nech.pl/pln/fbx/-/blob/master/CHANGELOG.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+typer = "^0.19"
+# typer 0.12's Parameter.make_metavar breaks on click >= 8.3
+click = ">=8.1,<8.3"
+rich = "^13"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8"
+pytest-cov = "^7"
+
+[tool.poetry.scripts]
+fbx = "fbx_cli.cli:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
