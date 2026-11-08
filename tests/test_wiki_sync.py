@@ -29,6 +29,26 @@ def test_stub_detection_never_eats_human_content():
     assert not ws.is_stub(ws.build_home())
 
 
+def test_no_construction_marks_in_generated_copy():
+    """Provenance lives in docs/api/00-overview.md and CONTRIBUTING, not as
+    stamps on the pages."""
+    for text in (ws.build_home(), ws.build_sidebar()):
+        assert "synthetic fixture" not in text.lower()
+        assert "do not edit" not in text.lower()
+
+
+def test_no_construction_marks_in_docs_cmd_and_readme():
+    root = Path(__file__).resolve().parent.parent
+    for page in sorted((root / "docs" / "cmd").glob("*.md")):
+        t = page.read_text().lower()
+        assert "synthetic fixture" not in t, page.name
+        assert "<!-- synthetic" not in t, page.name
+        assert "do not edit" not in t, page.name
+    readme = (root / "README.md").read_text().lower()
+    assert "synthetic demo" not in readme
+    assert "synthetic fixture" not in readme
+
+
 def test_sync_is_idempotent(tmp_path):
     (tmp_path / "Home.md").write_text(ws.build_home())
     for name in ws.pages():

@@ -1,3 +1,7 @@
+Provenance note: the command wiki under `docs/cmd/` is generated from the
+endpoint records (which cite these documents) with synthetic fixtures; the
+test suite renders every record/op through the real renderer offline.
+
 ## Login flow (from `login.min.js`)
 
 1. `GET /api/latest/login/` (header `X-FBX-FREEBOX0S: 1`) →
