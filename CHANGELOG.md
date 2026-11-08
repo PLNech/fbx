@@ -23,8 +23,17 @@ First public release.
   generic escape hatch.
 - Binary file transfer: `fbx fs get` / `fbx fs put` (documented multipart
   fallback).
-- 217 tests: 212 fixture-based tests over the formatters, path resolution and
-  auth flow (mocked), plus a surface test asserting the whole documented
-  command tree is registered.
+- 259 tests: the fixture suite (formatters, path resolution, mocked auth
+  flow), a surface test asserting the whole documented command tree, gate
+  sweeps (every gated op refuses without `--yes` before any HTTP call), a UX
+  contract test (`-h` everywhere, bare args are usage errors, no shrug
+  cells, `tldr` examples executed) and a readability sweep (292-op corpus +
+  fuzz, zero shrug cells).
+- Generated command wiki under `docs/cmd/` (16 pages): per-command synthetic
+  happy + error examples, rendered through the real CLI against a mocked
+  transport; CI regenerates and diffs it.
+- `fbx tldr`: ten copy-pasteable starter examples.
+- Graceful degradation for multi-call commands (`fbx storage overview`
+  renders what answers and warns on what does not).
 
 [0.1.0]: https://git.nech.pl/pln/fbx/-/tags/v0.1.0
