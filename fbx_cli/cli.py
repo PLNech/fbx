@@ -12,9 +12,11 @@ from .fmt import console, hb, cut, cellstr
 from .render import dump_json, render_list
 
 app = typer.Typer(no_args_is_help=True,
+                  context_settings={"help_option_names": ["-h", "--help"]},
                   help="Full-coverage CLI into your own Freebox OS box. "
                        "Global flags: --json (raw envelope), --debug (method+path+status), "
-                       "--yes (gate destructive ops). Domains below; `fbx api` is the escape hatch.")
+                       "--yes (gate destructive ops). Domains below; `fbx api` is the escape "
+                       "hatch; `fbx tldr` for ten starter examples.")
 
 
 @app.callback()
@@ -45,9 +47,9 @@ def version():
 
 
 @app.command()
-def login(password: Optional[str] = typer.Option(None, "--stdin", help="read the password from stdin instead of 1Password")):
+def login(stdin: bool = typer.Option(False, "--stdin", help="read the password from stdin instead of 1Password")):
     """Panel-dialect session login (cookie stored chmod 600, never printed)."""
-    pw = sys.stdin.readline().rstrip("\n") if password else auth.load_password()
+    pw = sys.stdin.readline().rstrip("\n") if stdin else auth.load_password()
     auth.login(force=True, password=pw)
     if not http.JSON_MODE:
         console.print("session stored (chmod 600, cookie never displayed)")
@@ -63,6 +65,33 @@ def logout():
                   f"logout answered: {resp.get('msg') or resp} (local cookie dropped anyway)")
 
 
+# tldr: ten starter examples. Every line is verified against the spec records
+# (tests/test_ux.py executes each one against fixtures, so tldr cannot rot).
+TLDR = [
+    ("check the box is reachable (no login needed)", "fbx version"),
+    ("authenticate — password from --stdin or 1Password, never argv",
+     "fbx login --stdin"),
+    ("WAN state, IPs, live rates", "fbx wan"),
+    ("global wifi state (the quick-toggle)", "fbx status"),
+    ("wifi access points / phys", "fbx wifi ap"),
+    ("port forwards", "fbx fw redir list"),
+    ("Samba / Windows file-sharing config", "fbx fw samba show"),
+    ("box health: temps, fans, uptime", "fbx system health"),
+    ("disks + partitions + raid in one screen", "fbx storage overview"),
+    ("escape hatch — any documented endpoint, raw",
+     "fbx api GET connection/xdsl/"),
+]
+
+
+@app.command()
+def tldr():
+    """Ten copy-pasteable examples to start with."""
+    for note, cmd in TLDR:
+        console.print(f"[dim]# {note}[/dim]")
+        console.print(cmd)
+        console.print()
+
+
 @app.command()
 def api(method: str = typer.Argument(..., help="GET|POST|PUT|DELETE"),
         path: str = typer.Argument(..., help="path under /api/latest (or /absolute)"),
@@ -76,14 +105,36 @@ def api(method: str = typer.Argument(..., help="GET|POST|PUT|DELETE"),
                      indent=2, ensure_ascii=False))
 
 
+def _soft(resp, what):
+    """Sub-call of a multi-endpoint custom command: optional, degrades loudly
+    but locally. One dead endpoint yields a dim warn line, the rest renders."""
+    if resp.get("success"):
+        return resp.get("result")
+    why = resp.get("msg") or resp.get("error_code") or resp
+    status = getattr(http, "LAST_STATUS", None)
+    if status:
+        why = f"{why} (HTTP {status})"
+    if not http.JSON_MODE:  # in JSON mode errors ride the "errors" dict instead
+        console.print(f"[dim]{what}: unavailable (box error: {why})[/dim]")
+    return None
+
+
 def storage_overview():
     """Combined storage view: disks + partitions + RAID (three endpoints, one screen).
-    Registered inside the storage group as `fbx storage overview`."""
-    disks = _ok(auth.authed("storage/disk/"), "storage disks") or []
-    parts = _ok(auth.authed("storage/partition/"), "storage partitions") or []
-    raids = _ok(auth.authed("storage/raid/"), "storage raid") or []
+    Registered inside the storage group as `fbx storage overview`. Each sub-call
+    is optional — a failing one degrades to a warn line (e.g. raid/ answering
+    HTTP 500 on a box with no array), a total failure fails loudly."""
+    disk_resp = auth.authed("storage/disk/")
+    disks = _soft(disk_resp, "disks") or []
+    part_resp = auth.authed("storage/partition/")
+    parts = _soft(part_resp, "partitions") or []
+    raid_resp = auth.authed("storage/raid/")
+    raids = _soft(raid_resp, "raid") or []
     if http.JSON_MODE:
-        dump_json({"disks": disks, "partitions": parts, "raids": raids})
+        dump_json({"disks": disks, "partitions": parts, "raids": raids,
+                   "errors": {w: (r.get("msg") or r.get("error_code"))
+                              for w, r in (("disks", disk_resp), ("partitions", part_resp),
+                                           ("raid", raid_resp)) if not r.get("success")}})
         return
     if disks:
         render_list([[cellstr(d.get("id")), cut(d.get("model") or d.get("title") or "-", 24),
@@ -102,7 +153,8 @@ def storage_overview():
                      for r in raids],
                     cols=["id", "name", "level", "state", "degraded", "size"], title="raid")
     if not (disks or parts or raids):
-        console.print("no storage objects reported")
+        raise typer.Exit("storage overview failed: the box answered none of "
+                         "disk/, partition/ or raid/ (see the warn lines above)")
 
 
 def _ok(resp, what):

@@ -3,7 +3,7 @@ import json
 
 from rich.table import Table
 
-from .fmt import console, fmt_cell, cellstr
+from .fmt import console, fmt_cell, cellstr, compact, DETAIL_HINT
 
 
 def render_list(rows, cols=None, units=None, title=None):
@@ -20,21 +20,25 @@ def render_list(rows, cols=None, units=None, title=None):
     for c in cols:
         t.add_column(c, overflow="fold")
     for r in rows or []:
-        t.add_row(*[cellstr(fmt_cell(r.get(c), units.get(c))) if isinstance(r, dict) else cellstr(r)
-                    for c in cols])
+        if isinstance(r, dict):
+            cells = [cellstr(fmt_cell(r.get(c), units.get(c))) for c in cols]
+        else:
+            # pre-formatted rows from the handwritten renderers: one cell per item
+            cells = [cellstr(v) for v in r]
+        t.add_row(*cells)
     console.print(t)
     if rows is not None:
         console.print(f"-- {len(rows)} entries")
 
 
 def render_kv(obj, title=None):
-    """A singleton dict rendered as key: value lines."""
+    """A singleton dict rendered as key: value lines; nested values compact."""
     if title:
         console.print(title)
     for k in sorted(obj):
         v = obj[k]
         if isinstance(v, (dict, list)):
-            console.print(f"  {k:26s} [list:{len(v)}]" if isinstance(v, list) else f"  {k:26s} {{…}}")
+            console.print(f"  {k:26s} {compact(v)}{DETAIL_HINT}")
         else:
             console.print(f"  {k:26s} {v}")
 

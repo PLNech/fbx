@@ -63,16 +63,45 @@ def cut(s, n=40):
     return s[: n - 1] + "…" if len(s) > n else s
 
 
+DETAIL_HINT = " (--json for full detail)"
+
+
+def compact(v, depth=0):
+    """Nested dict/list as one compact line: `k=v, k=v, k=v … +N more`.
+    The `{N keys}`-style shrug cell is banned; callers append DETAIL_HINT so
+    nothing truncated or nested disappears silently."""
+    if isinstance(v, dict):
+        if depth >= 2:
+            return "…"
+        items = [f"{k}={compact(x, depth + 1)}" for k, x in v.items()]
+        body = ", ".join(items[:3])
+        more = len(items) - 3
+        return body + (f" … +{more} more" if more > 0 else "")
+    if isinstance(v, (list, tuple)):
+        if depth >= 2:
+            return "…"
+        items = [compact(x, depth + 1) for x in v[:3]]
+        body = ", ".join(items)
+        more = len(v) - 3
+        return body + (f" … +{more} more" if more > 0 else "")
+    if isinstance(v, bool):
+        return "yes" if v else "no"
+    if v is None:
+        return "-"
+    return cut(v, 24)
+
+
 def fmt_cell(v, unit=None):
     if isinstance(v, (dict, list)):
-        if unit == "count" or isinstance(v, list):
-            return f"[{len(v)} items]" if v else "[]"
-        return f"{{{len(v)} keys}}" if v else "{}"
+        return compact(v) + DETAIL_HINT
     if isinstance(v, bool):
         return "yes" if v else "no"
     if unit in UNIT_FN:
         return UNIT_FN[unit](v)
-    return cut(v)
+    out = cut(v)
+    if out != str(v if v is not None else ""):
+        return out + DETAIL_HINT  # long strings truncate explicitly, never silently
+    return out
 
 
 def cellstr(s):
