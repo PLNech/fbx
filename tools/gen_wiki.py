@@ -55,10 +55,9 @@ PATH_SAMPLES = {
     "storage/disk/": [dict(fx.DISK)],
     "storage/partition/": [dict(fx.PARTITION)],
     "storage/raid/": [dict(fx.RAID)],
-    "/api_version": {"success": True,
-                     "result": {"api_version": "12.0", "device_name": "Freebox Server",
-                                "box_model": "fbxgw8-r1", "firmware_version": "4.8.6",
-                                "api_base_url": "/api/"}},
+    "/api_version": {"api_version": "12.0", "device_name": "Freebox Server",
+                     "box_model": "fbxgw8-r1", "firmware_version": "4.8.6",
+                     "api_base_url": "/api/"},
 }
 
 SLOT_VALS = {"bssid": "aa:bb:cc:11:22:33", "apid": "1", "ts": "1762500000",
@@ -363,26 +362,26 @@ fbx api POST system/reboot/          # gated surfaces still need --yes
 def demo_blocks():
     """The three README demo sessions (synthetic, deterministic)."""
     _CURRENT["envelope"] = {"success": True,
-                            "result": dict(PATH_SAMPLES["/api_version"]["result"])}
+                            "result": dict(PATH_SAMPLES["/api_version"])}
     v = run_cli(["version"])
     _CURRENT["envelope"] = envelope_for(BY_DOMAIN["wifi"][0], "R")  # wifi state
-    w = run_cli(["wifi", "status"])
+    w = run_cli(["status"])
     samba = next(r for r in BY_DOMAIN["fw"] if r.name == "samba")
     _CURRENT["envelope"] = envelope_for(samba, "R")
     s = run_cli(["fw", "samba", "show"])
-    return v, w, s
+    conn = next(r for r in BY_DOMAIN["connection"] if r.name == "full")
+    _CURRENT["envelope"] = envelope_for(conn, "R")
+    wan = run_cli(["wan"])
+    return v, w, s, wan
 
 
 def main():
     install_mock()
     if "--demo" in sys.argv:
-        v, w, s = demo_blocks()
-        print("===VERSION===")
-        print(v)
-        print("===WIFI===")
-        print(w)
-        print("===SAMBA===")
-        print(s)
+        v, w, s, wan = demo_blocks()
+        for tag, out in (("VERSION", v), ("WIFI", w), ("SAMBA", s), ("WAN", wan)):
+            print(f"==={tag}===")
+            print(out)
         return
     OUT.mkdir(parents=True, exist_ok=True)
     for stale in OUT.glob("*.md"):

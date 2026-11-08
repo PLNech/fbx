@@ -9,7 +9,11 @@
 Unauthenticated `GET /api_version` — the reachability check, no login.
 
 ```text
-
+  api_version        12.0
+  device_name        Freebox Server
+  box_model          fbxgw8-r1
+  firmware_version   4.8.6
+  api_base_url       /api/
 ```
 
 ## `fbx login`
