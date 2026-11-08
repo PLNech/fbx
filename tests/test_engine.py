@@ -11,9 +11,18 @@ runner = CliRunner()
 
 def test_parse_pairs_autotypes():
     b = engine.parse_pairs(["enabled=true", "progress=42.5", "label=x",
-                            "files=[\"a.iso\"]", "empty=", "bare"])
+                            "files=[\"a.iso\"]", "empty="])
     assert b == {"enabled": True, "progress": 42.5, "label": "x",
-                 "files": ["a.iso"], "empty": "", "bare": None}
+                 "files": ["a.iso"], "empty": ""}
+
+
+def test_parse_pairs_bare_arg_is_usage_error():
+    import pytest
+    import typer
+    with pytest.raises(typer.BadParameter, match="body fields are key=value"):
+        engine.parse_pairs(["bare"])
+    with pytest.raises(typer.BadParameter, match="unexpected argument '=x'"):
+        engine.parse_pairs(["=x"])
 
 
 def test_resolve_path_foreign_slots():

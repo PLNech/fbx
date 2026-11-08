@@ -20,6 +20,8 @@ from .spec import BY_DOMAIN
 OP_LEAF = {"L": "list", "R": "show", "G": "get", "C": "add", "U": "set",
            "D": "rm", "A": "run"}
 
+HELP_SETTINGS = {"help_option_names": ["-h", "--help"]}
+
 
 def parse_value(raw):
     try:
@@ -28,12 +30,22 @@ def parse_value(raw):
         return raw
 
 
-def parse_pairs(values):
-    """key=value argv pairs -> dict. `k=` -> empty string, bare `k` -> None."""
+def parse_pairs(values, rec=None):
+    """key=value argv pairs -> dict. `k=` -> empty string; a bare positional is
+    a usage ERROR, never silently swallowed."""
     body = {}
     for v in values or []:
         k, sep, raw = v.partition("=")
-        body[k] = parse_value(raw) if sep else None
+        if not sep or not k:
+            hint = ""
+            if rec is not None:
+                verb = "show" if "R" in rec.ops else ("get" if "G" in rec.ops else None)
+                if verb:
+                    addr = "" if rec.singleton else " <id>"
+                    hint = f"; to address one record try `fbx {rec.dom} {rec.name} {verb}{addr}`"
+            raise typer.BadParameter(
+                f"unexpected argument {v!r} — body fields are key=value{hint}")
+        body[k] = parse_value(raw)
     return body
 
 
@@ -54,7 +66,7 @@ def method_for(op):
 
 
 def run(rec, op, values=None, item_id=None, yes=False, **slots):
-    body = parse_pairs(values)
+    body = parse_pairs(values, rec=rec)
     path = resolve_path(rec, op, slots, item_id)
     data = None if method_for(op) == "GET" else (body or None)
     if method_for(op) == "GET" and body:
@@ -69,10 +81,12 @@ def run(rec, op, values=None, item_id=None, yes=False, **slots):
         return
     if not resp.get("success"):
         msg = resp.get("msg") or resp.get("error_code") or resp
+        status = getattr(http, "LAST_STATUS", None)
+        suffix = f" (HTTP {status})" if status else ""
         hint = ""
         if method_for(op) == "GET" and str(resp.get("error_code", "")) in ("unknown", "notfound"):
             hint = "\n(endpoint not in docs; try `fbx api` as the escape hatch)"
-        raise typer.Exit(f"{rec.dom} {rec.name} {OP_LEAF[op]} failed: {msg}{hint}")
+        raise typer.Exit(f"{rec.dom} {rec.name} {OP_LEAF[op]} failed: {msg}{suffix}{hint}")
     if rec.custom and rec.custom in CUSTOM:
         CUSTOM[rec.custom](resp.get("result"))
     else:
@@ -123,27 +137,60 @@ def _make_fn(rec, op):
     return ns["_fn"]
 
 
+def _example(rec):
+    """One usage example, generated from the record's REAL ops only (clean-room:
+    never invent an endpoint or a flag)."""
+    verb = "get" if "G" in rec.ops else ("show" if "R" in rec.ops else None)
+    if verb is None:
+        return None
+    parts = ["fbx", rec.dom, rec.name]
+    if len(rec.ops) > 1:
+        parts.append(verb)
+    if rec.slots or (verb == "get" and not rec.singleton):
+        parts += [str(rec.defaults.get(s, 0)) for s in rec.slots]
+        if verb == "get" and not rec.singleton:
+            parts.append("0")
+    return " ".join(parts)
+
+
+def _domain_example(recs):
+    """Prefer a record you can both list and address one of; else any read."""
+    ranked = [r for r in recs if "L" in r.ops and set(r.ops) & set("RG")]
+    for rec in ranked + [r for r in recs if r not in ranked]:
+        ex = _example(rec)
+        if ex:
+            return f"e.g. {ex}"
+    return None
+
+
 def build(app):
     """Register every domain group and its generated commands; return the groups."""
     groups = {}
     for dom in sorted(BY_DOMAIN):
         recs = BY_DOMAIN[dom]
         g = typer.Typer(help=f"{dom} — documented endpoints: "
-                             f"{len({r.path for r in recs})}", no_args_is_help=True)
+                             f"{len({r.path for r in recs})}",
+                        epilog=_domain_example(recs), no_args_is_help=True,
+                        context_settings=HELP_SETTINGS)
         app.add_typer(g, name=dom)
         groups[dom] = g
         for rec in recs:
+            ex = _example(rec)
             if len(rec.ops) == 1:
-                g.command(rec.name, help=rec.help())(_make_fn(rec, rec.ops))
+                g.command(rec.name, help=rec.help(),
+                          context_settings=HELP_SETTINGS)(_make_fn(rec, rec.ops))
                 continue
-            sub = typer.Typer(help=rec.help(), no_args_is_help=True)
+            sub = typer.Typer(help=rec.help(),
+                              epilog=f"e.g. {ex}" if ex else None,
+                              no_args_is_help=True, context_settings=HELP_SETTINGS)
             g.add_typer(sub, name=rec.name)
             for op in rec.ops:
-                sub.command(OP_LEAF[op], help=f"{method_for(op)} {rec.path}")(
-                    _make_fn(rec, op))
+                sub.command(OP_LEAF[op], help=f"{method_for(op)} {rec.path}",
+                            context_settings=HELP_SETTINGS)(_make_fn(rec, op))
         for rec in recs:
             if rec.alias:
                 op = rec.ops
                 app.command(rec.alias, help=f"(= fbx {dom} {rec.name}) "
-                                            f"{rec.help()}")(_make_fn(rec, op))
+                                            f"{rec.help()}",
+                            context_settings=HELP_SETTINGS)(_make_fn(rec, op))
     return groups

@@ -14,6 +14,7 @@ from . import config
 
 JSON_MODE = False   # --json: pass the raw response envelope through untouched
 DEBUG = False       # --debug: print method + path + status only (never bodies)
+LAST_STATUS = None  # HTTP status of the last real call (None when mocked)
 
 _cj = http.cookiejar.CookieJar()
 _opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(_cj))
@@ -42,15 +43,18 @@ def call(path, data=None, headers=None, method=None, form=False, timeout=20):
         with _opener.open(req, timeout=timeout) as r:
             if DEBUG:
                 print(f"[fbx] -> {r.status}")
+            globals()["LAST_STATUS"] = r.status
             return json.load(r)
     except urllib.error.HTTPError as e:
         if DEBUG:
             print(f"[fbx] -> HTTP {e.code}")
+        globals()["LAST_STATUS"] = e.code
         try:
             return json.load(e)
         except Exception:
             return {"success": False, "msg": f"HTTP {e.code}"}
     except (urllib.error.URLError, OSError) as e:
+        globals()["LAST_STATUS"] = None
         return {"success": False, "msg": f"unreachable: {e}"}
 
 

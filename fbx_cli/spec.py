@@ -37,7 +37,11 @@ class Rec:
                  note=None):
         self.dom, self.name, self.path, self.ops = dom, name, path, ops
         self.singleton, self.cols, self.units = singleton, cols, units or {}
-        self.name_field, self.gate, self.form = name_field, ("DA" if gate is True else (gate or "")), form
+        # gate=True means EVERY mutating op (C/U/D/A) needs --yes — mutating U
+        # ops on singleton run-style endpoints are the dangerous ones
+        # (storage/reset_internal_storage). L/R/G stay ungated.
+        self.gate_all = gate is True
+        self.name_field, self.gate, self.form = name_field, ("CUDA" if gate is True else (gate or "")), form
         self.root, self.custom, self.defaults = root, custom, defaults or {}
         self.alias, self.note = alias, note
         RECORDS.append(self)
