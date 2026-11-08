@@ -24,6 +24,8 @@ jobs:
 
   wiki:
     runs-on: ubuntu-latest
+    env:
+      TZ: UTC
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
