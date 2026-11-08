@@ -54,6 +54,24 @@ auto-commit on master ("wiki ships with the commands"), add a
 contents: write`) after the regeneration step in the `wiki` job; that
 choice belongs to the repository owner, so it ships disabled.
 
+## GitHub wiki
+
+The GitHub wiki (PLNech/fbx.wiki) is maintained from `docs/cmd/` by
+`tools/sync_gh_wiki.py` and the `wiki-sync` CI job (push to master only).
+The job clones the wiki, copies every `docs/cmd/X.md` page, builds `Home.md`
+(tagline, quickstart, page index) and `_Sidebar.md`, and commits as
+`wiki: sync from <main-repo short sha>` only when something changed; a second
+run commits nothing. `Home.md` is overwritten only while it is missing or
+still holds GitHub's default empty stub: human wiki edits are never clobbered.
+
+The owner's ONE manual step: create a fine-grained personal access token
+(repository `PLNech/fbx`, contents read/write) and add it as the `WIKI_TOKEN`
+Actions secret. Until that secret exists the job prints a skip notice and
+exits green. The token lives only in the Actions secret store; it is never
+written into this repository. As shipped, the job stops after the local
+commit (no push automation in this checkout); the owner enables the final
+`git push` in the `wiki-sync` job once the secret is in place.
+
 ## Adding an endpoint record, end to end
 
 1. **Read the docs.** Find (or add) the endpoint in `docs/api/<area>.md`:
