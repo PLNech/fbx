@@ -1,4 +1,6 @@
-# fbx CI: install, run the whole suite with coverage.
+# fbx CI: install, run the whole suite with coverage, and verify the
+# generated command wiki is fresh (verify-only; the GitHub workflow
+# additionally auto-commits regenerated pages on master).
 image: python:3.12
 
 test:
@@ -6,6 +8,17 @@ test:
   script:
     - pip install -e . pytest pytest-cov
     - pytest --cov=fbx_cli --cov-report=term -q
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_TAG
+
+wiki:
+  stage: test
+  script:
+    - pip install -e .
+    - python tools/gen_wiki.py
+    - git diff --exit-code docs/cmd
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH

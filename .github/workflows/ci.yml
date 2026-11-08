@@ -21,3 +21,17 @@ jobs:
         run: pip install -e . pytest pytest-cov
       - name: Test
         run: pytest --cov=fbx_cli --cov-report=term -q
+
+  wiki:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: pip install -e .
+      - name: Regenerate the command wiki
+        run: python tools/gen_wiki.py
+      - name: Fail on stale docs/cmd
+        run: git diff --exit-code docs/cmd
