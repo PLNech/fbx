@@ -36,4 +36,4 @@ Rec("lan", "switch-port", "switch/port/", "L",
 Rec("lan", "freeplug", "freeplug/", "L", cols=["id"],
     note="CPL/freeplug networks (members via the escape hatch)")
 Rec("lan", "freeplug-reset", "freeplug/{net_id}/reset/", "A", singleton=True, gate=True,
-    note="reboot a freeplug member (freeplug/<id>/reset/) — needs --yes")
+    note="reboot a freeplug member (freeplug/<id>/reset/); needs --yes")

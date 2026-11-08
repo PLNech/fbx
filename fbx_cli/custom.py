@@ -1,4 +1,4 @@
-"""Handwritten renderers — only where the generic table is genuinely worse:
+"""Handwritten renderers, only where the generic table is genuinely worse:
 connection summary, system health grid, download-task progress, call-log summary,
 and the combined storage view (three endpoints in one screen)."""
 from .fmt import console, hb, hr, hdur, hts, cut, cellstr

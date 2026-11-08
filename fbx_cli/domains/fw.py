@@ -33,11 +33,11 @@ Rec("fw", "nc-migrate", "network_control/migrate", "RA",
 Rec("fw", "ui-settings", "settings/", "L", cols=["id", "name"], name_field="name",
     note="panel UI-state store (AppSettings)")
 Rec("fw", "ui-settings-reset", "settings/reset/", "D", singleton=True, gate=True,
-    note="reset stored panel UI prefs — needs --yes")
+    note="reset stored panel UI prefs; needs --yes")
 
 Rec("accounts", "profiles", "profile/", "LCUD",
     cols=["id", "name", "icon"], name_field="name", gate="D",
-    note="profiles (family) — rm needs --yes")
+    note="profiles (family): rm needs --yes")
 Rec("accounts", "groups", "group/", "L", note="permission groups [thin in docs]")
 Rec("accounts", "notif-targets", "notif/targets/", "LCUD",
     cols=["id", "name", "type", "api_url", "message_type", "last_use"],
@@ -46,4 +46,4 @@ Rec("accounts", "notif-targets", "notif/targets/", "LCUD",
 Rec("accounts", "taskcount", "taskcount/", "L", cols=["name"],
     note="background task counts per name")
 # Guest mode / remote access fields ride on an [inferred] settings endpoint
-# (connection/config/ is the likely host) — covered by `fbx connection config`.
+# (connection/config/ is the likely host), covered by `fbx connection config`.

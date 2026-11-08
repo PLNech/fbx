@@ -9,7 +9,7 @@ Rec("vpn", "server-config", "vpn/{vpn_id}/config/", "RU", singleton=True,
 Rec("vpn", "ip-pool", "vpn/ip_pool/", "R", note="VPN address pools")
 Rec("vpn", "users", "vpn/user/", "LCUD",
     cols=["id", "login", "type", "password_set", "ip_reservation"], name_field="login",
-    note="VPN users — password is write-only: users add login=… password=…")
+    note="VPN users; password is write-only: users add login=… password=…")
 Rec("vpn", "connections", "vpn/connection/", "L",
     cols=["user", "vpn", "src_ip", "rx_bytes", "tx_bytes", "auth_time"],
     units={"rx_bytes": "bytes", "tx_bytes": "bytes", "auth_time": "ts"},

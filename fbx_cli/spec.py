@@ -9,7 +9,7 @@ Record fields:
   dom         domain group (fbx <dom> ...)
   name        command slug inside the domain
   path        URL template, relative to /api/latest, exactly as documented
-              (trailing slashes are inconsistent upstream — transcribed as-is);
+              (trailing slashes are inconsistent upstream, transcribed as-is);
               "{slot}" = path param (the docs' {foreignId} pattern)
   ops         letters: L=list GET, R=read GET, G=get-one GET, C=create POST,
               U=update PUT, D=delete DELETE, A=action POST
@@ -37,7 +37,7 @@ class Rec:
                  note=None):
         self.dom, self.name, self.path, self.ops = dom, name, path, ops
         self.singleton, self.cols, self.units = singleton, cols, units or {}
-        # gate=True means EVERY mutating op (C/U/D/A) needs --yes — mutating U
+        # gate=True means EVERY mutating op (C/U/D/A) needs --yes: mutating U
         # ops on singleton run-style endpoints are the dangerous ones
         # (storage/reset_internal_storage). L/R/G stay ungated.
         self.gate_all = gate is True

@@ -23,7 +23,7 @@ Rec("contacts", "list", "contact/", "LCUD",
     cols=["id", "display_name", "first_name", "last_name", "company", "birthday"],
     name_field="display_name", note="contacts (contact/)")
 Rec("contacts", "photo", "contact/{contact_id}/update_photo/", "A", singleton=True,
-    note="upload a photo (multipart — prefer the escape hatch or the panel)")
+    note="upload a photo (multipart; prefer the escape hatch or the panel)")
 Rec("contacts", "addresses", "contact/{contact_id}/addresses/", "LCUD",
     note="postal addresses of one contact [field shapes thin in docs]")
 Rec("contacts", "emails", "contact/{contact_id}/emails/", "LCUD",

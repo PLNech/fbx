@@ -11,14 +11,14 @@ Rec("auth", "perms", "login/perms/", "R",
 Rec("auth", "tokens", "authorization/", "LCUD",
     cols=["id", "app_name", "app_version", "app_id", "device_name", "token_validity"],
     name_field="app_name", gate="D",
-    note="app pairings/tokens (authorization/) — rm = revoke a pairing")
+    note="app pairings/tokens (authorization/): rm = revoke a pairing")
 
 Rec("system", "health", "system/", "R", custom="system",
-    note="firmware, uptime, temps, fan (system/) — the box's health grid")
+    note="firmware, uptime, temps, fan (system/), the box's health grid")
 Rec("system", "reboot", "system/reboot/", "A", singleton=True, gate=True,
-    note="reboot the box (system/reboot/) — DESTRUCTIVE, needs --yes")
+    note="reboot the box (system/reboot/): DESTRUCTIVE, needs --yes")
 Rec("system", "shutdown", "system/shutdown", "A", singleton=True, gate=True,
-    note="shut the box down (system/shutdown) — DESTRUCTIVE, needs --yes")
+    note="shut the box down (system/shutdown): DESTRUCTIVE, needs --yes")
 Rec("system", "standby", "standby/config/", "RU", singleton=True,
     note="standby planning (mode: suspend | wifi_off)")
 Rec("system", "lcd", "lcd/config/", "RU", singleton=True,

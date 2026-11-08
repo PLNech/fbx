@@ -2,7 +2,7 @@
 from ..spec import Rec
 
 Rec("connection", "basic", "connection", "R",
-    note="bare connection status (connection) — rates and state")
+    note="bare connection status (connection): rates and state")
 Rec("connection", "full", "connection/full/", "R", custom="connection",
     alias="wan", cols=["state", "type", "mode", "media", "ipv4", "ipv6",
                               "rate_down", "rate_up", "bw_down", "bw_up"],
@@ -23,15 +23,15 @@ Rec("connection", "ddns-status", "connection/ddns/all/status/", "R",
 Rec("connection", "logs", "connection/logs/", "LD", gate="D",
     cols=["id", "type", "state", "conn", "link", "date", "bw_down", "bw_up"],
     units={"date": "ts", "bw_down": "rate", "bw_up": "rate"},
-    note="WAN connection history — rm CLEARS the log (needs --yes)")
+    note="WAN connection history: rm CLEARS the log (needs --yes)")
 Rec("connection", "rrd", "rrd/", "A",
     note="graphs time series: db=… precision=… date_start=… date_end=… fields=[…]")
 Rec("connection", "domains", "domain/owned/", "LC", gate="C",
     cols=["id", "type", "owner", "default"], name_field="id",
-    note="owned DNS domains — add registers one (domain/owned/)")
+    note="owned DNS domains: add registers one (domain/owned/)")
 Rec("connection", "domain-config", "domain/config/", "RU", singleton=True,
     note="default remote-access domain (domain/config/)")
 Rec("connection", "domain-availability", "domain/availability/", "R",
     note="check a domain's availability: domain-availability <name> [tld=…]")
 Rec("connection", "domain-reserve", "domain/reserve/", "A", gate=True,
-    note="reserve a box domain (domain/reserve/) — write, needs --yes")
+    note="reserve a box domain (domain/reserve/): write, needs --yes")

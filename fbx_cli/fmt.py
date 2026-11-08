@@ -19,7 +19,7 @@ def hb(n):
 
 
 def hr(n):
-    """Human rate (bytes/s assumed — units are not documented in docs/api/)."""
+    """Human rate (bytes/s assumed; units are not documented in docs/api/)."""
     if n is None:
         return "-"
     return f"{hb(n)}/s"

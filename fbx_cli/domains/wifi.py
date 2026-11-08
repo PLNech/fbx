@@ -7,9 +7,9 @@ _STATION_UNITS = {"tx_rate": "rate", "rx_rate": "rate", "inactive": "dur"}
 Rec("wifi", "state", "wifi/state", "R", alias="status",
     note="global wifi state (the quick-toggle one)")
 Rec("wifi", "config", "wifi/config/", "RU", singleton=True,
-    note="wifi config — set enabled=true|false turns wifi on/off")
+    note="wifi config: set enabled=true|false turns wifi on/off")
 Rec("wifi", "config-reset", "wifi/config/reset", "A", singleton=True, gate=True,
-    note="reset wifi config to defaults — needs --yes")
+    note="reset wifi config to defaults; needs --yes")
 Rec("wifi", "ap", "wifi/ap/", "L", cols=["id", "config", "status"],
     name_field="id", note="access points / phys")
 Rec("wifi", "ap-survey", "wifi/ap/{apid}/channel_survey_history/{ts}/", "R",
@@ -33,7 +33,7 @@ Rec("wifi", "mac-filter", "wifi/mac_filter/", "LCUD",
     note="MAC filter entries (wifi/mac_filter/)")
 Rec("wifi", "custom-key", "wifi/custom_key/", "LC",
     cols=["id", "description", "remaining", "expire_date"], name_field="description",
-    note="guest custom keys — add: description=… key=… duration=… access_type=…")
+    note="guest custom keys, add: description=… key=… duration=… access_type=…")
 Rec("wifi", "guest-config", "wifi/custom_keys/config/", "RU", singleton=True,
     note="guest-network global config")
 Rec("wifi", "wps-candidates", "wifi/wps/candidates/", "L",

@@ -44,7 +44,7 @@ def parse_pairs(values, rec=None):
                     addr = "" if rec.singleton else " <id>"
                     hint = f"; to address one record try `fbx {rec.dom} {rec.name} {verb}{addr}`"
             raise typer.BadParameter(
-                f"unexpected argument {v!r} — body fields are key=value{hint}")
+                f"unexpected argument {v!r}: body fields are key=value{hint}")
         body[k] = parse_value(raw)
     return body
 
@@ -168,7 +168,7 @@ def build(app):
     groups = {}
     for dom in sorted(BY_DOMAIN):
         recs = BY_DOMAIN[dom]
-        g = typer.Typer(help=f"{dom} — documented endpoints: "
+        g = typer.Typer(help=f"{dom}, documented endpoints: "
                              f"{len({r.path for r in recs})}",
                         epilog=_domain_example(recs), no_args_is_help=True,
                         context_settings=HELP_SETTINGS)

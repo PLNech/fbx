@@ -1,4 +1,4 @@
-# docs/api/07-downloads.md — the downloader
+# docs/api/07-downloads.md, the downloader
 from ..spec import Rec
 
 _TASK_COLS = ["id", "name", "status", "progress", "rx_speed", "tx_speed", "size"]
@@ -27,7 +27,7 @@ Rec("downloads", "task-blacklist", "downloads/{task_id}/blacklist", "L",
 Rec("downloads", "log", "downloads/{task_id}/log/", "L", note="task log lines")
 Rec("downloads", "pieces", "downloads/{task_id}/pieces/", "L", note="piece map")
 Rec("downloads", "erase", "downloads/{task_id}/erase", "D", singleton=True, gate=True,
-    note="erase a task AND its downloaded data — needs --yes")
+    note="erase a task AND its downloaded data; needs --yes")
 Rec("downloads", "task-blacklist-empty", "downloads/{task_id}/blacklist/empty", "A",
     singleton=True, note="empty a task's blocklist [verb inferred]")
 Rec("downloads", "blocklist", "downloads/blacklist/", "LCUD",

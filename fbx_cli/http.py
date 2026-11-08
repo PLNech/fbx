@@ -72,7 +72,7 @@ def call_raw(path, headers=None, timeout=60):
 
 
 def call_body(path, body, headers=None, method="POST", timeout=60):
-    """One call with a pre-encoded body (multipart uploads) — no JSON wrapping."""
+    """One call with a pre-encoded body (multipart uploads), no JSON wrapping."""
     url = f"{config.BASE}/{path.lstrip('/')}"
     req = urllib.request.Request(url, data=body, method=method)
     req.add_header("X-FBX-FREEBOX0S", "1")

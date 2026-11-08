@@ -1,4 +1,4 @@
-"""fbx — the command line into your Freebox OS. Everything the web panel can see,
+"""fbx, the command line into your Freebox OS. Everything the web panel can see,
 so does `fbx` (spec-driven off docs/api/, ~190 endpoints)."""
 import json
 import sys
@@ -30,7 +30,7 @@ def _root(json_mode: bool = typer.Option(False, "--json", help="pass the raw res
 
 @app.command()
 def version():
-    """Unauthenticated GET /api_version — the reachability check (no login)."""
+    """Unauthenticated GET /api_version, the reachability check (no login)."""
     resp = http.call("/api_version")
     if http.JSON_MODE:
         dump_json(resp)
@@ -57,7 +57,7 @@ def login(stdin: bool = typer.Option(False, "--stdin", help="read the password f
 
 @app.command()
 def logout():
-    """POST login/logout — end the panel session and drop the local cookie file."""
+    """POST login/logout: end the panel session and drop the local cookie file."""
     resp = http.call("login/logout", method="POST", headers={"Cookie": auth.login()})
     if config.SESSION_FILE.exists():
         config.SESSION_FILE.unlink()
@@ -69,7 +69,7 @@ def logout():
 # (tests/test_ux.py executes each one against fixtures, so tldr cannot rot).
 TLDR = [
     ("check the box is reachable (no login needed)", "fbx version"),
-    ("authenticate — password from --stdin or 1Password, never argv",
+    ("authenticate: password from --stdin or 1Password, never argv",
      "fbx login --stdin"),
     ("WAN state, IPs, live rates", "fbx wan"),
     ("global wifi state (the quick-toggle)", "fbx status"),
@@ -78,7 +78,7 @@ TLDR = [
     ("Samba / Windows file-sharing config", "fbx fw samba show"),
     ("box health: temps, fans, uptime", "fbx system health"),
     ("disks + partitions + raid in one screen", "fbx storage overview"),
-    ("escape hatch — any documented endpoint, raw",
+    ("escape hatch: any documented endpoint, raw",
      "fbx api GET connection/xdsl/"),
 ]
 
@@ -96,7 +96,7 @@ def tldr():
 def api(method: str = typer.Argument(..., help="GET|POST|PUT|DELETE"),
         path: str = typer.Argument(..., help="path under /api/latest (or /absolute)"),
         body: Optional[str] = typer.Argument(None, help="JSON body (or key=value pairs for form posts)")):
-    """Generic authenticated escape hatch — anything the generated commands miss."""
+    """Generic authenticated escape hatch: anything the generated commands miss."""
     data = json.loads(body) if body and body.strip().startswith(("{", "[")) else body
     form = isinstance(data, str) and data and "=" in data and not data.strip().startswith(("{", "["))
     if form:
@@ -122,7 +122,7 @@ def _soft(resp, what):
 def storage_overview():
     """Combined storage view: disks + partitions + RAID (three endpoints, one screen).
     Registered inside the storage group as `fbx storage overview`. Each sub-call
-    is optional — a failing one degrades to a warn line (e.g. raid/ answering
+    is optional: a failing one degrades to a warn line (e.g. raid/ answering
     HTTP 500 on a box with no array), a total failure fails loudly."""
     disk_resp = auth.authed("storage/disk/")
     disks = _soft(disk_resp, "disks") or []
@@ -216,11 +216,11 @@ def fs_put(file: Path = typer.Argument(..., exists=True, dir_okay=False),
 def build():
     """Import the spec (registers every record), generate the domain commands,
     then hang the handwritten helpers into their groups."""
-    from . import domains  # noqa: F401 — the record registrations
+    from . import domains  # noqa: F401 (the record registrations)
     groups = engine.build(app)
     fs_group = groups.get("fs")
     if fs_group is not None:
-        fs_group.command("get", help="GET dl/<path> — download a file")(fs_get)
+        fs_group.command("get", help="GET dl/<path>: download a file")(fs_get)
         fs_group.command("put", help="multipart upload (POST upload/)")(fs_put)
     st_group = groups.get("storage")
     if st_group is not None:
