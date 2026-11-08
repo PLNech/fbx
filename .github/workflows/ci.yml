@@ -37,3 +37,28 @@ jobs:
         run: python tools/gen_wiki.py
       - name: Fail on stale docs/cmd
         run: git diff --exit-code docs/cmd
+
+  wiki-sync:
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Sync the GitHub wiki (prepare)
+        env:
+          WIKI_TOKEN: ${{ secrets.WIKI_TOKEN }}
+        run: |
+          if [ -z "$WIKI_TOKEN" ]; then
+            echo "wiki-sync: WIKI_TOKEN is not set; skipping the GitHub wiki sync (add the Actions secret to enable it)"
+            exit 0
+          fi
+          git clone --depth 1 "https://x-access-token:${WIKI_TOKEN}@github.com/PLNech/fbx.wiki.git" fbx.wiki
+          python tools/sync_gh_wiki.py --wiki-dir fbx.wiki
+      # The job clones the wiki and commits the synced pages, but does NOT
+      # push (push automation stays owner-gated in this checkout). To have
+      # CI maintain the wiki end to end, the owner adds, after the step
+      # above: `git -C fbx.wiki push` with the fine-grained PAT granting
+      # contents read/write on PLNech/fbx. See CONTRIBUTING.md, "GitHub wiki".
