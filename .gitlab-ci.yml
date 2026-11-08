@@ -1,0 +1,12 @@
+# fbx CI: install, run the whole suite with coverage.
+image: python:3.12
+
+test:
+  stage: test
+  script:
+    - pip install -e . pytest pytest-cov
+    - pytest --cov=fbx_cli --cov-report=term -q
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_TAG

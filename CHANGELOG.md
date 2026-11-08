@@ -23,7 +23,8 @@ First public release.
   generic escape hatch.
 - Binary file transfer: `fbx fs get` / `fbx fs put` (documented multipart
   fallback).
-- 212 fixture-based tests covering the formatters, path resolution, the auth
-  flow (mocked) and the spec surface.
+- 217 tests: 212 fixture-based tests over the formatters, path resolution and
+  auth flow (mocked), plus a surface test asserting the whole documented
+  command tree is registered.
 
 [0.1.0]: https://git.nech.pl/pln/fbx/-/tags/v0.1.0
