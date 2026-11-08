@@ -1,6 +1,5 @@
 # fbx, une CLI pour ta Freebox
 
-[![CI (GitLab)](https://git.nech.pl/pln/fbx/badges/master/pipeline.svg)](https://git.nech.pl/pln/fbx/-/commits/master)
 [![CI (GitHub)](https://github.com/plnech/fbx/actions/workflows/ci.yml/badge.svg)](https://github.com/plnech/fbx/actions/workflows/ci.yml)
 
 An unofficial, full-coverage command line into a Freebox OS router's panel API.
