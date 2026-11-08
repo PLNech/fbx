@@ -69,3 +69,7 @@
   (`monitor_op` reads `progress`/`success` fields `[inferred]`).
   Note these two are written with a leading slash in the bundle
   (`api_call:"/storage/…"`).
+
+Observed quirk (2026-11-08): a box with no RAID array answers `storage/raid/`
+with HTTP 500 "Erreur interne". `fbx storage overview` treats each sub-call as
+optional and shows `raid: unavailable (box error: …)` instead of aborting.
