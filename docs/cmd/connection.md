@@ -400,8 +400,8 @@ Terminal:
 ```text
                                 connection logs                                
  id  type  state  conn      link      date              bw_down     bw_up      
- 1   auto  up     syn-conn  syn-link  2025-11-07 08:20  5.0 MiB/s   5.0 MiB/s  
- 2   auto  up     syn-conn  syn-link  2025-11-07 08:21  10.0 MiB/s  10.0 MiB/s 
+ 1   auto  up     syn-conn  syn-link  2025-11-07 07:20  5.0 MiB/s   5.0 MiB/s  
+ 2   auto  up     syn-conn  syn-link  2025-11-07 07:21  10.0 MiB/s  10.0 MiB/s 
 -- 2 entries
 ```
 

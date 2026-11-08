@@ -939,8 +939,8 @@ Terminal:
 ```text
                            downloads feed-items                           
  id  title     is_read      is_downloaded      pub_ts            link     
- 1   device-a  syn-is-read  syn-is-downloaded  2025-11-07 08:20  syn-link 
- 2   device-b  syn-is-read  syn-is-downloaded  2025-11-07 08:21  syn-link 
+ 1   device-a  syn-is-read  syn-is-downloaded  2025-11-07 07:20  syn-link 
+ 2   device-b  syn-is-read  syn-is-downloaded  2025-11-07 07:21  syn-link 
 -- 2 entries
 ```
 

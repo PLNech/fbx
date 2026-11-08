@@ -48,8 +48,8 @@ Terminal:
 ```text
                                    auth sessions                                   
  id  app_name      device_name      client_ip     is_web_app      start_time       
- 1   syn-app-name  syn-device-name  192.168.1.50  syn-is-web-app  2025-11-07 08:20 
- 2   syn-app-name  syn-device-name  192.168.1.51  syn-is-web-app  2025-11-07 08:21 
+ 1   syn-app-name  syn-device-name  192.168.1.50  syn-is-web-app  2025-11-07 07:20 
+ 2   syn-app-name  syn-device-name  192.168.1.51  syn-is-web-app  2025-11-07 07:21 
 -- 2 entries
 ```
 

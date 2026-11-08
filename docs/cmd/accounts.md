@@ -197,8 +197,8 @@ Terminal:
 ```text
                        accounts notif-targets                        
  id  name      type  api_url      message_type      last_use         
- 1   device-a  auto  syn-api-url  syn-message-type  2025-11-07 08:20 
- 2   device-b  auto  syn-api-url  syn-message-type  2025-11-07 08:21 
+ 1   device-a  auto  syn-api-url  syn-message-type  2025-11-07 07:20 
+ 2   device-b  auto  syn-api-url  syn-message-type  2025-11-07 07:21 
 -- 2 entries
 ```
 

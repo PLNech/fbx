@@ -102,8 +102,8 @@ Terminal:
 ```text
                                            lan devices                                           
  primary_name      vendor_name      host_type      interface      reachable  last_time_reachable 
- syn-primary-name  syn-vendor-name  syn-host-type  syn-interface  yes        2025-11-07 08:20    
- syn-primary-name  syn-vendor-name  syn-host-type  syn-interface  yes        2025-11-07 08:21    
+ syn-primary-name  syn-vendor-name  syn-host-type  syn-interface  yes        2025-11-07 07:20    
+ syn-primary-name  syn-vendor-name  syn-host-type  syn-interface  yes        2025-11-07 07:21    
 -- 2 entries
 ```
 
@@ -152,9 +152,9 @@ Terminal:
                                                                                      last_time_reac 
  primary_name    vendor_name    host_type      interface      reachable  persistent  hable          
  syn-primary-na  syn-vendor-na  syn-host-type  syn-interface  yes        yes         2025-11-07     
- me              me                                                                  08:20          
+ me              me                                                                  07:20          
  syn-primary-na  syn-vendor-na  syn-host-type  syn-interface  yes        yes         2025-11-07     
- me              me                                                                  08:21          
+ me              me                                                                  07:21          
 -- 2 entries
 ```
 

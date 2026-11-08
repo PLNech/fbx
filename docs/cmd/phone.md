@@ -343,8 +343,8 @@ Terminal:
 ```text
 call log: 2 entries (missed=1  outgoing=1; new=1)
  datetime          type      number      name  duration      
- 2025-11-07 08:20  missed    0600000001  -     0m        new 
- 2025-11-07 08:20  outgoing  0600000002  -     2m            
+ 2025-11-07 07:20  missed    0600000001  -     0m        new 
+ 2025-11-07 07:20  outgoing  0600000002  -     2m            
 -- 2 entries
 -- last 2 shown
 ```

@@ -404,8 +404,8 @@ Terminal:
 ```text
                    fs share-link                    
  token      path      expire            fullurl     
- syn-token  syn-path  2025-11-07 08:20  syn-fullurl 
- syn-token  syn-path  2025-11-07 08:21  syn-fullurl 
+ syn-token  syn-path  2025-11-07 07:20  syn-fullurl 
+ syn-token  syn-path  2025-11-07 07:21  syn-fullurl 
 -- 2 entries
 ```
 

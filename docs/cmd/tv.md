@@ -371,8 +371,8 @@ Terminal:
 ```text
                                         tv pvr-programmed                                         
  id  name      state  start             end               channel_uuid      conflict      enabled 
- 1   device-a  up     2025-11-07 08:20  2025-11-07 08:20  syn-channel-uuid  syn-conflict  yes     
- 2   device-b  up     2025-11-07 08:21  2025-11-07 08:21  syn-channel-uuid  syn-conflict  yes     
+ 1   device-a  up     2025-11-07 07:20  2025-11-07 07:20  syn-channel-uuid  syn-conflict  yes     
+ 2   device-b  up     2025-11-07 07:21  2025-11-07 07:21  syn-channel-uuid  syn-conflict  yes     
 -- 2 entries
 ```
 
@@ -508,8 +508,8 @@ Terminal:
 ```text
                                    tv pvr-finished                                    
  id  name      state  channel_name      start             end               byte_size 
- 1   device-a  up     syn-channel-name  2025-11-07 08:20  2025-11-07 08:20  1.8 TiB   
- 2   device-b  up     syn-channel-name  2025-11-07 08:21  2025-11-07 08:21  1.8 TiB   
+ 1   device-a  up     syn-channel-name  2025-11-07 07:20  2025-11-07 07:20  1.8 TiB   
+ 2   device-b  up     syn-channel-name  2025-11-07 07:21  2025-11-07 07:21  1.8 TiB   
 -- 2 entries
 ```
 
@@ -623,8 +623,8 @@ Terminal:
 ```text
                   tv dvb                  
  id  type  name      last_successful_scan 
- 1   auto  device-a  2025-11-07 08:20     
- 2   auto  device-b  2025-11-07 08:21     
+ 1   auto  device-a  2025-11-07 07:20     
+ 2   auto  device-b  2025-11-07 07:21     
 -- 2 entries
 ```
 

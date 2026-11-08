@@ -8,8 +8,8 @@ synthesizer for the rest): no live box is ever contacted, no credentials are
 involved. Terminal output is captured with typer's CliRunner against a mocked
 transport, so each page shows exactly what rich prints.
 
-Deterministic and idempotent: stable key order, fixed console width, no
-timestamps; CI diffs the result (`git diff --exit-code docs/cmd`).
+Deterministic and idempotent: stable key order, fixed console width, frozen
+UTC clock (FAKE_NOW); CI diffs the result (`git diff --exit-code docs/cmd`).
 
 Usage:
     python tools/gen_wiki.py            # regenerate docs/cmd/
@@ -25,6 +25,15 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 os.environ["COLUMNS"] = "100"  # fixed rich width -> byte-stable output
+
+# Freeze the clock: the renderers format fixture epochs with time.localtime,
+# so machine TZ used to leak into the pages (mac UTC+1 vs CI UTC) and broke
+# the freshness gate. FAKE_NOW is the single fixed base; everything UTC.
+FAKE_NOW = "2025-11-07T08:20:00Z"
+os.environ["TZ"] = "UTC"
+import time  # noqa: E402
+
+time.tzset()
 
 from typer.testing import CliRunner  # noqa: E402
 

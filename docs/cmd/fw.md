@@ -754,9 +754,9 @@ Terminal:
                                             override_mod                                            
  profile_id    profile_name  current_mode   e             rule_mode      next_change   override     
  syn-profile-  syn-profile-  syn-current-m  syn-override  syn-rule-mode  2025-11-07    syn-override 
- id            name          ode            -mode                        08:20                      
+ id            name          ode            -mode                        07:20                      
  syn-profile-  syn-profile-  syn-current-m  syn-override  syn-rule-mode  2025-11-07    syn-override 
- id            name          ode            -mode                        08:21                      
+ id            name          ode            -mode                        07:21                      
 -- 2 entries
 ```
 

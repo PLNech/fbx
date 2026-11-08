@@ -294,8 +294,8 @@ Terminal:
 ```text
                             vpn connections                            
  user      vpn      src_ip        rx_bytes  tx_bytes  auth_time        
- syn-user  syn-vpn  192.168.1.50  1.8 TiB   1.8 TiB   2025-11-07 08:20 
- syn-user  syn-vpn  192.168.1.51  1.8 TiB   1.8 TiB   2025-11-07 08:21 
+ syn-user  syn-vpn  192.168.1.50  1.8 TiB   1.8 TiB   2025-11-07 07:20 
+ syn-user  syn-vpn  192.168.1.51  1.8 TiB   1.8 TiB   2025-11-07 07:21 
 -- 2 entries
 ```
 

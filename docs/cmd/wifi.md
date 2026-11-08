@@ -830,8 +830,8 @@ Terminal:
 ```text
                                     wifi wps-session                                     
  id  ssid      active  result      mac                start_date        end_date         
- 1   syn-ssid  yes     syn-result  aa:bb:cc:00:00:40  2025-11-07 08:20  2025-11-07 08:20 
- 2   syn-ssid  yes     syn-result  aa:bb:cc:00:00:41  2025-11-07 08:21  2025-11-07 08:21 
+ 1   syn-ssid  yes     syn-result  aa:bb:cc:00:00:40  2025-11-07 07:20  2025-11-07 07:20 
+ 2   syn-ssid  yes     syn-result  aa:bb:cc:00:00:41  2025-11-07 07:21  2025-11-07 07:21 
 -- 2 entries
 ```
 
