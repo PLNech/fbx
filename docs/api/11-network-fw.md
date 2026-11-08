@@ -43,17 +43,17 @@
 - Rule modes include `denied` and legacy values (`isLegacy`: mode !=
   "denied"); holiday calendar keys `:fr_school_holidays_a/_b/_c/_corse` are
   used as schedule references.
-- `network_control/<profile_id>/rules` — restforeign proxy on the profile id.
+- `network_control/<profile_id>/rules`: restforeign proxy on the profile id.
   Rule records (fields not captured) `[thin]`.
-- `network_control/migrate` — GET
+- `network_control/migrate`: GET
   (`result.default_mode_migrated:bool`) + POST (perform the "allow by
   default" migration; shown once in an evolution dialog).
 
 ## `settings/` and `settings/reset/`
-- `settings/` — rest proxy over `Fbx.os.core.AppSettingsModel`:
-  `id:int`, `name:string`, `data:auto` — the panel's own UI-state store
+- `settings/`: rest proxy over `Fbx.os.core.AppSettingsModel`:
+  `id:int`, `name:string`, `data:auto`; the panel's own UI-state store
   (window positions etc., backed by `Fbx.ux.state.AjaxProvider`).
   Wait: this store is persisted server-side under `settings/`.
-- `settings/reset/` — DELETE (reset stored UI prefs).
+- `settings/reset/`: DELETE (reset stored UI prefs).
   (Note: also a `settings/` form-family in the settings screens; the
   AppSettings usage is the confirmed proxy consumer.)

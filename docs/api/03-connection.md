@@ -45,15 +45,15 @@
   `fieldsNames`).
 - `result` = time series per requested field `[inferred]`.
 
-## `domain/` — DNS domains / remote-access domain
-- `domain/owned/` — rest proxy + POST (add a domain, body
+## `domain/`: DNS domains / remote-access domain
+- `domain/owned/`: rest proxy + POST (add a domain, body
   `jsonData:{id:<domain_name>}`); `result` entries =
   `Fbx.os.app.settings.domains.DomainModel`: `id:string`, `type:string`,
   `owner:string`, `certs:auto`, `default:bool`, `defaultStr:bool`.
-- `domain/config/` — GET + PUT (rest proxy on same model; PUT body
+- `domain/config/`: GET + PUT (rest proxy on same model; PUT body
   `jsonData:{default_domain:<domain_name>}`).
-- `domain/availability/` — GET, checks a domain name's availability.
-- `domain/reserve/` — POST, body `jsonData:{prefix:<string>,
+- `domain/availability/`: GET, checks a domain name's availability.
+- `domain/reserve/`: POST, body `jsonData:{prefix:<string>,
   domain:<string>}`.
 - The default remote URL is built from `domainsCfg.default_domain` else
   `domainsCfg.api_domain` + optional `:https_port`/`:port` (accounts screen).

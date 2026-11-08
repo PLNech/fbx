@@ -19,12 +19,12 @@
 - rest proxy GET. `result` = `DectVendorModel`: `id:string`, `name:string`.
 
 ## DECT handset paging
-- `phone/dect_page_start/` — POST (ring DECT handsets).
-- `phone/dect_page_stop/` — POST (stop paging).
+- `phone/dect_page_start/`: POST (ring DECT handsets).
+- `phone/dect_page_stop/`: POST (stop paging).
 
 ## FXS line ring
-- `phone/fxs_ring_start/` — POST.
-- `phone/fxs_ring_stop/` — POST.
+- `phone/fxs_ring_start/`: POST.
+- `phone/fxs_ring_stop/`: POST.
 
 ## `call/log/`
 - rest proxy. `result` entries = `Fbx.os.app.calls.CallModel`: `id:int`,

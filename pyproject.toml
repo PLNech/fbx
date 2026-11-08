@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "fbx-cli"
 version = "0.1.0"
-description = "fbx — Le CLI freebox: an unofficial, full-coverage command line into a Freebox OS box's panel API"
+description = "Une CLI pour ta Freebox: an unofficial, full-coverage command line into a Freebox OS box's panel API"
 authors = ["Paul-Louis NECH"]
 license = "GPL-3.0-only"
 readme = "README.md"

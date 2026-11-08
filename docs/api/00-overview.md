@@ -14,11 +14,11 @@
 Panel-side extras:
 
 - `GET …/login/` at panel launch (same call) drives the environment.
-- `POST …/login/quality/` with `params:{password:<plaintext>}` — password
+- `POST …/login/quality/` with `params:{password:<plaintext>}`; password
   strength check from the settings password-change form `[inferred: response
   not read; only success/failure used]`.
-- `GET …/login/perms/` — loads the logged-in app's permission set at startup.
-- `POST …/login/logout` — ends the session (settings page "logout").
+- `GET …/login/perms/`: loads the logged-in app's permission set at startup.
+- `POST …/login/logout`: ends the session (settings page "logout").
 
 ## API versioning
 
@@ -29,27 +29,27 @@ lives in `FbxConf`, not the bundle. Trailing slashes are inconsistent
 ## REST conventions (Ext JS proxies)
 
 Most collections are Ext `rest`/`resttree`/`restforeign` proxies with
-`sortParam/startParam/limitParam/filterParam/pageParam` all `undefined` —
+`sortParam/startParam/limitParam/filterParam/pageParam` all `undefined`,
 so **no paging/sort/filter query params are sent**; a collection GET returns
 everything. Proxy CRUD maps to:
 
-- `GET <url>` — list (`root:"result"` or `root:"result.entries"`)
-- `POST <url>` — create (record data as JSON body)
-- `PUT <url><id>` (or `<url>` for singleton configs) — update
-- `DELETE <url><id>` — destroy
+- `GET <url>`: list (`root:"result"` or `root:"result.entries"`)
+- `POST <url>`: create (record data as JSON body)
+- `PUT <url><id>` (or `<url>` for singleton configs): update
+- `DELETE <url><id>`: destroy
 
 `restforeign` proxies substitute `{foreignId}` in the URL with a parent
 record's key (`foreignProperty`, e.g. `profile_id`, `task_id`, `bssid`).
 
 ## Non-REST extras
 
-- **WebSocket `…/event/`** — notification bus. Client sends
+- **WebSocket `…/event/`**: notification bus. Client sends
   `{"action":"register","events":["<source>_<event>", …]}`; server replies
   `{"success":true,"action":"register"}` then pushes
   `{"action":"notification","source":"…","event":"…","result":…}`. One
   shared socket in `Fbx.os.gui.Environment.registerNotif/unregisterNotif`.
-- **WebSocket `…/upload`** — chunked file upload (see `06-fs.md`).
-- **Multipart upload fallback** — `POST upload/` with `file`, `dirname`,
+- **WebSocket `…/upload`**: chunked file upload (see `06-fs.md`).
+- **Multipart upload fallback**: `POST upload/` with `file`, `dirname`,
   `MAX_FILE_SIZE`, `csrf_token`, then `POST upload/<id>/send` (see `06-fs.md`).
 - **Long-poll**: none found; the panel polls with `setInterval` (1 s form
   reloads, task monitors) instead.

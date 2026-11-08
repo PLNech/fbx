@@ -52,18 +52,18 @@
 - Record save (PUT) with `state:"stopped"` stops the array.
 
 ## `storage/raid/<id>/…` member operations
-- `POST storage/raid/<id>/forcestart` — force-start a degraded array.
-- `DELETE storage/raid/<id>/members/faulty` — remove faulty members.
-- `PUT storage/raid/<id>/members` — body
+- `POST storage/raid/<id>/forcestart`: force-start a degraded array.
+- `DELETE storage/raid/<id>/members/faulty`: remove faulty members.
+- `PUT storage/raid/<id>/members`: body
   `jsonData:{members:[<disk ids>]}` (add members).
-- `POST storage/raid/<id>/members/addspares` — add spares (no body).
+- `POST storage/raid/<id>/members/addspares`: add spares (no body).
   `[thin: spare-disk selection is client-side; body not captured]`
 
 ## `storage/internal_storage_state`
 - Form URL, GET, polled every 1 s; shows internal SSD state summary.
 
 ## `/storage/reset_internal_storage` and `/storage/check_internal_storage`
-- Verb: PUT, empty JSON body (`jsonData:{}`) — from the `ops` table of the
+- Verb: PUT, empty JSON body (`jsonData:{}`); from the `ops` table of the
   internal-storage screen (`post_op` helper), then progress is tracked by
   polling `GET /storage/internal_storage_state` every 1 s
   (`monitor_op` reads `progress`/`success` fields `[inferred]`).

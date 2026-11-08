@@ -4,13 +4,13 @@ All notable changes to `fbx` are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning is
 [SemVer](https://semver.org/).
 
-## [0.1.0] — 2026-11-08
+## [0.1.0], 2026-11-08
 
 First public release.
 
 - Full-coverage CLI into a Freebox OS box's panel API: **15 domains,
   183 endpoint records, 292 operations**, spec-driven from the clean-room
-  API notes in `docs/api/` (16 markdown files).
+  API notes in `docs/api/` (16 markdown files). Tagline: une CLI pour ta Freebox.
 - Panel-dialect login (challenge table evaluated via a one-shot `node`
   subprocess, `HMAC-SHA1(SHA1(salt+password), challenge)`), cookie session
   stored `chmod 600`, one automatic re-login on auth errors, password read

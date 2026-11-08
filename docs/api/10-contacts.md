@@ -9,31 +9,31 @@
   (computed client-side `[inferred]`).
 
 ## `contact/<id>/update_photo/`
-- POST multipart (photo upload) — composed with `record.getId()`.
+- POST multipart (photo upload): composed with `record.getId()`.
   (`"/update_photo/"` literal confirmed.)
 
 ## Sub-resources (Ext `restforeign`, `{foreignId}` = contact id)
-- `contact/<id>/addresses/` — postal addresses.
-- `contact/<id>/emails/` — email addresses.
-- `contact/<id>/numbers/` — phone numbers.
-- `contact/<id>/urls/` — web URLs.
+- `contact/<id>/addresses/`: postal addresses.
+- `contact/<id>/emails/`: email addresses.
+- `contact/<id>/numbers/`: phone numbers.
+- `contact/<id>/urls/`: web URLs.
 - Field shapes of each sub-record are not captured in the bundle slice
-  `[thin — only the URLs and the association pattern are visible]`.
+  `[thin: only the URLs and the association pattern are visible]`.
 
 ## Group operations (all POST, no rest proxy)
-- `contact/groups` — list groups. `result` =
+- `contact/groups`: list groups. `result` =
   `Fbx.os.app.contacts.ContactGroup`: `id:int`, `name:string`,
   `nb_contact:int`.
-- `contact/addtogroup` — POST `{contact:<id>, group:<id>}`
+- `contact/addtogroup`: POST `{contact:<id>, group:<id>}`
   `[inferred param names from action name]`.
-- `contact/removefromgroup` — POST, same shape `[inferred]`.
+- `contact/removefromgroup`: POST, same shape `[inferred]`.
 
 ## Import / export
-- `contact/count` — GET (number of contacts, used before import).
-- `contact/export/` — GET (vCard download) `[inferred]`.
-- `contact/import/step1/` — POST (upload vCard file, multipart, like the
+- `contact/count`: GET (number of contacts, used before import).
+- `contact/export/`: GET (vCard download) `[inferred]`.
+- `contact/import/step1/`: POST (upload vCard file, multipart, like the
   explorer uploader) `[inferred]`.
-- `contact/import/step2/` — POST
+- `contact/import/step2/`: POST
   `jsonData:{emptyBeforeAdding:<bool>, contacts:[<parsed contacts>]}`.
 
 ## Loose strings `address/`, `email/`, `url/`, `number/`
