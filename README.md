@@ -83,8 +83,9 @@ one-shot `node` subprocess, computes
 `HMAC-SHA1(key=SHA1(salt+password), msg=challenge)`, posts it form-encoded,
 and stores the session cookie `chmod 600` under `~/.config/freebox/session/`
 (never printed). One automatic re-authentication on auth errors. The password
-comes from 1Password (`op read`, item from `FREEBOX_OP_REF`) or
-`fbx login --stdin`; never argv, never disk. You need `node` installed.
+comes from 1Password (`op read`: the item named by the `FREEBOX_OP_REF`
+env var, a one-line `~/.config/freebox/opref` file, or the default item) or
+from `fbx login --stdin`; never argv, never disk. You need `node` installed.
 
 ## Domains
 
@@ -122,8 +123,10 @@ Free SAS or Freebox. "Freebox" is a trademark of Free SAS; this project only
 interoperates with the product, and is meant for **your own box** on your own
 LAN.
 
-**Is my password safe?** The ladder: pipe it (`fbx login --stdin`) or let fbx
-read it from 1Password at runtime (`op`, item from `FREEBOX_OP_REF`). It is
+**Is my password safe?** The ladder: pipe it (`fbx login --stdin`), or let fbx
+read it from 1Password at runtime (`op`; the item is resolved as
+`FREEBOX_OP_REF` env, then a one-line `~/.config/freebox/opref` file kept
+`chmod 600`, then the default item). It is
 never in argv, never written to disk, never printed; the session cookie lives
 `chmod 600` under `~/.config/freebox/` and auto re-login is one retry. Set
 `FREEBOX_HOST` if your LAN is renumbered (the default, `fd0f:ee:b0::1`, is the

@@ -48,7 +48,11 @@ def version():
 
 @app.command()
 def login(stdin: bool = typer.Option(False, "--stdin", help="read the password from stdin instead of 1Password")):
-    """Panel-dialect session login (cookie stored chmod 600, never printed)."""
+    """Panel-dialect session login (cookie stored chmod 600, never printed).
+
+    The 1Password item is resolved as: FREEBOX_OP_REF env, then the
+    one-line ~/.config/freebox/opref file, then the default item.
+    """
     pw = sys.stdin.readline().rstrip("\n") if stdin else auth.load_password()
     auth.login(force=True, password=pw)
     if not http.JSON_MODE:

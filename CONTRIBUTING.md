@@ -9,9 +9,18 @@ code, never by anyone's live box dump.
 ```sh
 git clone https://git.nech.pl/pln/fbx && cd fbx
 poetry install          # small venv: typer + rich (+ pytest, pytest-cov)
-poetry run pytest       # 259 tests, all fixture-based, fully offline
+poetry run pytest       # 267 tests, all fixture-based, fully offline
 poetry run python tools/gen_wiki.py   # regenerate docs/cmd/
 ```
+
+### The password ladder (1Password reference)
+
+`fbx login` reads the Freebox password with `op read`. Which 1Password item
+holds it is resolved as: the `FREEBOX_OP_REF` env var, then a one-line file
+at `~/.config/freebox/opref` (the whole line is the `op://` reference; keep
+it `chmod 600`, fbx warns on stderr if it is too open), then the built-in
+default `op://Personal/Freebox/credential`. The file rung exists so a
+machine can be configured without touching anyone's shell rc.
 
 ## The clean-room rule (one paragraph, non-negotiable)
 

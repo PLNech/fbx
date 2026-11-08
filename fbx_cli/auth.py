@@ -18,15 +18,19 @@ from . import config, http
 
 
 def load_password():
-    """The password goes 1Password -> memory. Never argv, never stdout, never disk."""
+    """The password goes 1Password -> memory. Never argv, never stdout, never disk.
+
+    The op:// reference comes from the config ladder: FREEBOX_OP_REF env, then
+    the <CFG>/opref file, then the default item."""
+    ref = config.load_op_ref()
     try:
         out = subprocess.run(
-            ["op", "read", "--no-newline", config.OP_REF],
+            ["op", "read", "--no-newline", ref],
             capture_output=True, text=True, timeout=60, check=True,
         )
         return out.stdout
     except (subprocess.CalledProcessError, FileNotFoundError, subprocess.TimeoutExpired) as e:
-        sys.exit(f"could not fetch the Freebox password from 1Password ({config.OP_REF}): {e}")
+        sys.exit(f"could not fetch the Freebox password from 1Password ({ref}): {e}")
 
 
 def challenge_to_string(table):
